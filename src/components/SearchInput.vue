@@ -1,19 +1,26 @@
 <template>
-  <form v-on:submit.prevent="submitSearch">
+  <form v-on:submit.prevent="submitSearchQuery">
     <div class="field">
       <label class="label">Wyszukaj</label>
-      <div class="control">
+      <div class="control has-icons-right">
         <input
           class="input"
           type="text"
           placeholder="Wpisz frazę"
           v-model="searchQuery"
-          v-bind:class="{ 'is-danger': inputProp }"
-          @keyup="submitSearch"
+          v-bind:class="{ 'is-danger': inputDisplayProp }"
+          @keyup="submitSearchQuery"
         />
+        <span
+          class="icon is-right"
+          v-show="searchQuery"
+          @click="removeSearchQuery"
+        >
+          <i class="fas fa-times"></i>
+        </span>
       </div>
-      <p class="help is-danger" v-bind:style="{ display: displayProp }">
-        Szukana fraza musi mieć przynajmniej 2 znaki
+      <p class="help is-danger" v-bind:style="{ display: errorDisplayProp }">
+        Szukana fraza musi mieć przynajmniej 1 znak
       </p>
     </div>
   </form>
@@ -23,21 +30,32 @@
 export default {
   name: "SearchInput",
   data() {
-    return { searchQuery: "", displayProp: "none", inputProp: false };
+    return {
+      searchQuery: "",
+      inputDisplayProp: false,
+      errorDisplayProp: "none"
+    };
   },
   methods: {
-    submitSearch: function() {
-      setTimeout(() => {
-        if (this.searchQuery.length == 0) {
-          this.displayProp = "block";
-          this.inputProp = true;
-        } else {
-          this.displayProp = "none";
-          this.inputProp = false;
-          this.$emit("searchQuery", this.searchQuery);
-        }
-      }, 500);
+    submitSearchQuery: function() {
+      if (this.searchQuery.length == 0) {
+        this.inputDisplayProp = true;
+        this.errorDisplayProp = "block";
+      } else {
+        this.inputDisplayProp = false;
+        this.errorDisplayProp = "none";
+        this.$emit("searchQuery", this.searchQuery);
+      }
+    },
+    removeSearchQuery: function() {
+      this.searchQuery = "";
     }
   }
 };
 </script>
+
+<style>
+.control.has-icons-right .icon {
+  pointer-events: initial !important;
+}
+</style>
