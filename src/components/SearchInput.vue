@@ -8,6 +8,7 @@
           type="text"
           placeholder="Wpisz frazę"
           v-model="searchQuery"
+          v-bind:class="{ 'is-danger': inputProp }"
           @keyup="submitSearch"
         />
       </div>
@@ -22,16 +23,20 @@
 export default {
   name: "SearchInput",
   data() {
-    return { searchQuery: "", displayProp: "none" };
+    return { searchQuery: "", displayProp: "none", inputProp: false };
   },
   methods: {
     submitSearch: function() {
-      if (this.searchQuery.length < 2) {
-        this.displayProp = "block";
-      } else {
-        this.displayProp = "none";
-        this.$emit("searchQuery", this.searchQuery);
-      }
+      setTimeout(() => {
+        if (this.searchQuery.length == 0) {
+          this.displayProp = "block";
+          this.inputProp = true;
+        } else {
+          this.displayProp = "none";
+          this.inputProp = false;
+          this.$emit("searchQuery", this.searchQuery);
+        }
+      }, 500);
     }
   }
 };
