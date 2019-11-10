@@ -14,6 +14,7 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-eslint": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
@@ -35,8 +36,7 @@
     },
     "extends": [
       "plugin:vue/essential",
-      "plugin:prettier/recommended",
-      "eslint:recommended"
+      "plugin:prettier/recommended"
     ],
     "rules": {},
     "parserOptions": {
