@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import _ from "lodash";
 export default {
   name: "SearchInput",
   data() {
@@ -37,7 +38,7 @@ export default {
     };
   },
   methods: {
-    submitSearchQuery: function() {
+    submitSearchQuery: _.debounce(function() {
       if (this.searchQuery.length == 0) {
         this.inputDisplayProp = true;
         this.errorDisplayProp = "block";
@@ -46,9 +47,10 @@ export default {
         this.errorDisplayProp = "none";
         this.$emit("searchQuery", this.searchQuery);
       }
-    },
+    }, 300),
     removeSearchQuery: function() {
       this.searchQuery = "";
+      this.submitSearchQuery();
     }
   }
 };
@@ -56,6 +58,6 @@ export default {
 
 <style>
 .control.has-icons-right .icon {
-  pointer-events: initial !important;
+  pointer-events: initial !important; /*I know this is ugly */
 }
 </style>
