@@ -1,22 +1,33 @@
 <template>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Tytuł</th>
-        <th>Popularność</th>
-        <th>Liczba głosów</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="result in results" v-bind:key="result.id">
-        <th>{{ result.id }}</th>
-        <th>{{ result.title }}</th>
-        <th>{{ result.popularity }}</th>
-        <th>{{ result.vote_count }}</th>
-      </tr>
-    </tbody>
-  </table>
+  <div class="columns is-centered">
+    <div class="column is-one-quarter">
+      <div class="box" v-bind:key="result.id" v-for="result in results">
+        <p class="title is-4">{{ result.title }}</p>
+        <article class="media">
+          <div class="media-left">
+            <img
+              v-bind:src="
+                'https://image.tmdb.org/t/p/w500' + result.poster_path
+              "
+            />
+          </div>
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <strong>Popularność:</strong>
+                {{ result.popularity }}
+              </p>
+              <p>
+                <strong>Liczba głosów:</strong>
+                {{ result.vote_count }}
+              </p>
+            </div>
+            <a class="button is-info">Więcej</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -29,3 +40,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+img {
+  max-height: 200px;
+}
+</style>
