@@ -1,7 +1,10 @@
 <template>
   <div id="root">
     <search-input v-on:searchQuery="fetchQuery" />
-    <search-results v-if="results.length > 0" :results="results" />
+    <search-results
+      :results="results"
+      :isAllowedForChecking="isAllowedForChecking"
+    />
   </div>
 </template>
 
@@ -17,7 +20,8 @@ export default {
       apiUrl: "https://api.themoviedb.org/3/search/movie",
       apiKey: "8673a6b0eccdac7514050448c45f7d1a",
       apiLang: "pl",
-      results: []
+      results: [],
+      isAllowedForChecking: false
     };
   },
   components: {
@@ -31,8 +35,8 @@ export default {
     },
     getMovies: function(req) {
       axios.get(req).then(res => {
-        console.log(res.data);
         this.results = res.data.results;
+        this.isAllowedForChecking = true;
       });
     }
   }

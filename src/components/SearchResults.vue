@@ -1,13 +1,20 @@
 <template>
   <div class="columns is-centered">
-    <div class="column is-one-quarter">
+    <div class="column is-two-fifths">
+      <div class="container">
+        <p v-if="isAllowedForChecking && results.length == 0" class="is-size-3">
+          Brak wyników.
+        </p>
+      </div>
       <div class="box" v-bind:key="result.id" v-for="result in results">
         <p class="title is-4">{{ result.title }}</p>
         <article class="media">
           <div class="media-left">
             <img
               v-bind:src="
-                'https://image.tmdb.org/t/p/w500' + result.poster_path
+                result.poster_path
+                  ? 'https://image.tmdb.org/t/p/w500' + result.poster_path
+                  : placeholderUrl
               "
             />
           </div>
@@ -36,7 +43,15 @@ export default {
   props: {
     results: {
       type: Array
+    },
+    isAllowedForChecking: {
+      type: Boolean
     }
+  },
+  data() {
+    return {
+      placeholderUrl: require("../assets/placeholder.png")
+    };
   }
 };
 </script>
